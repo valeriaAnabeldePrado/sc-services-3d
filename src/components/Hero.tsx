@@ -1,7 +1,6 @@
 import { Button } from "./ui/button";
-import { buttonVariants } from "./ui/button";
-import { HeroCards } from "./HeroCards";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import mockup from "/compuBanner.png"
+
 
 export const Hero = () => {
   return (
@@ -9,45 +8,29 @@ export const Hero = () => {
       <div className="text-center lg:text-start space-y-6">
         <main className="text-5xl md:text-6xl font-bold">
           <h1 className="inline">
-            <span className="inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] text-transparent bg-clip-text">
-              Shadcn
+            <span className="inline bg-gradient-to-r from-[#F596D3]  to-[#7d27f2] text-transparent bg-clip-text">
+              Experiencia 3D interactiva e inmersiva
             </span>{" "}
-            landing page
-          </h1>{" "}
-          for{" "}
-          <h2 className="inline">
-            <span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text">
-              React
-            </span>{" "}
-            developers
-          </h2>
+            única en el mercado
+          </h1>
+
         </main>
 
         <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          Build your React landing page effortlessly with the required sections
-          to your project.
+        Simulaciones arquitectónicas en alta calidad, con navegación fluida. Una herramienta poderosa para comunicar proyectos con claridad y visión. Visita nuestras demos y descubre su potencial.
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
+          <Button className="w-full md:w-1/3">Ver Edificio</Button>
+          <Button className="w-full md:w-1/3">Ver Departamento</Button>
 
-          <a
-            rel="noreferrer noopener"
-            href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-            target="_blank"
-            className={`w-full md:w-1/3 ${buttonVariants({
-              variant: "outline",
-            })}`}
-          >
-            Github Repository
-            <GitHubLogoIcon className="ml-2 w-5 h-5" />
-          </a>
+          
         </div>
       </div>
 
       {/* Hero cards sections */}
       <div className="z-10">
-        <HeroCards />
+        <img src={mockup} alt="mk" className="h-[55vh] object-contain"/>
       </div>
 
       {/* Shadow effect */}

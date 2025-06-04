@@ -16,7 +16,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
-import { LogoIcon } from "./Icons";
+import logoSc from "../assets/logo.png";
 
 interface RouteProps {
   href: string;
@@ -25,8 +25,16 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
+    href: "#about",
+    label: "Nosotros",
+  },
+  {
     href: "#features",
-    label: "Features",
+    label: "Funcionalidades",
+  },
+  {
+    href: "#services",
+    label: "Servicios",
   },
   {
     href: "#testimonials",
@@ -54,8 +62,8 @@ export const Navbar = () => {
               href="/"
               className="ml-2 font-bold text-xl flex"
             >
-              <LogoIcon />
-              ShadcnUI/React
+              <img src={logoSc} alt="logo" className="h-7 object-contain mr-4" />
+              SmartCloud Studio
             </a>
           </NavigationMenuItem>
 
@@ -126,19 +134,7 @@ export const Navbar = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex gap-2">
-            <a
-              rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-              target="_blank"
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
-              <GitHubLogoIcon className="mr-2 w-5 h-5" />
-              Github
-            </a>
-
-            <ModeToggle />
-          </div>
+          
         </NavigationMenuList>
       </NavigationMenu>
     </header>

@@ -1,35 +1,42 @@
-import { Radar } from "lucide-react";
+import logogsg from "/gsg.png"
+import juarez from "/JuarezP.png";
+import ssi from "/bynlogossi.png";
+import telefe from "/telefe.png";
+import ypf from "/YPF2.png";
 
 interface SponsorProps {
-  icon: JSX.Element;
+ img: string;
+ clasNameStyle: string;
   name: string;
 }
 
 const sponsors: SponsorProps[] = [
   {
-    icon: <Radar size={34} />,
-    name: "Sponsor 1",
+    img: logogsg,
+    clasNameStyle: " md:w-30 md:h-[12vh] object-contain grayscale ",
+    name: "Gsg Iluminación",
   },
   {
-    icon: <Radar size={34} />,
+    img: juarez,
+    clasNameStyle: " md:w-30 md:h-[10vh] object-contain grayscale",
     name: "Sponsor 2",
   },
   {
-    icon: <Radar size={34} />,
+    img:ssi,
+    clasNameStyle: " md:w-30 md:h-[10vh] object-contain grayscale",
     name: "Sponsor 3",
   },
   {
-    icon: <Radar size={34} />,
+    img: ypf,
+    clasNameStyle: "md:w-30 md:h-[7vh] object-contain grayscale",
     name: "Sponsor 4",
   },
   {
-    icon: <Radar size={34} />,
+    img: telefe,
+    clasNameStyle: "md:w-30 md:h-[10vh] object-contain grayscale ",
     name: "Sponsor 5",
   },
-  {
-    icon: <Radar size={34} />,
-    name: "Sponsor 6",
-  },
+  
 ];
 
 export const Sponsors = () => {
@@ -38,18 +45,21 @@ export const Sponsors = () => {
       id="sponsors"
       className="container pt-24 sm:py-32"
     >
-      <h2 className="text-center text-md lg:text-xl font-bold mb-8 text-primary">
-        Investors and founders
+      <h2 className="text-center text-md lg:text-4xl font-bold mb-12 text-primary ">
+      Trayectoria respaldada por grandes marcas
       </h2>
 
       <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-        {sponsors.map(({ icon, name }: SponsorProps) => (
+        {sponsors.map(({ img, name, clasNameStyle }: SponsorProps) => (
           <div
             key={name}
             className="flex items-center gap-1 text-muted-foreground/60"
           >
-            <span>{icon}</span>
-            <h3 className="text-xl  font-bold">{name}</h3>
+            <img
+              src={img}
+              alt={name}
+              className={clasNameStyle }/>
+           
           </div>
         ))}
       </div>

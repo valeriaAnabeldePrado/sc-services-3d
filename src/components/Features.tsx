@@ -1,14 +1,11 @@
-import { Badge } from "./ui/badge";
+
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import image from "../assets/growth.png";
-import image3 from "../assets/reflecting.png";
-import image4 from "../assets/looking-ahead.png";
+import ypf from "/YPF2.png";
 
 interface FeatureProps {
   title: string;
@@ -18,65 +15,44 @@ interface FeatureProps {
 
 const features: FeatureProps[] = [
   {
-    title: "Responsive Design",
+    title: "Branding Estratégico y Naming",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image4,
+      "Creamos la identidad completa de tu proyecto inmobiliario desde cero: nombre, logo, estética visual, tono de comunicación y estilo. No solo diseñamos, sino que pensamos estratégicamente cómo conectar con tu público objetivo y transmitir confianza desde el primer segundo.",
+    image: ypf,
   },
   {
-    title: "Intuitive user interface",
+    title: "Desarrollo de Producto Digital para Preventa",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image3,
+      "Diseñamos y desarrollamos la experiencia digital necesaria para que puedas vender incluso antes de construir. Sitios web, renders, recorridos virtuales y materiales de presentación que muestran la propiedad como si ya existiera. Ideal para ventas en pozo o propiedades premium.",
+    image: ypf,
   },
   {
-    title: "AI-Powered insights",
+    title: "Recorridos Inmersivos y Contenido 3D Interactivo",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image,
+      "Ofrecemos experiencias inmersivas en 3D navegables desde cualquier dispositivo, donde tus clientes pueden recorrer la propiedad, cambiar acabados y visualizar espacios reales antes de existir. Esto aumenta la retención y mejora las decisiones de compra.",
+    image: ypf,
   },
 ];
 
-const featureList: string[] = [
-  "Dark/Light theme",
-  "Reviews",
-  "Features",
-  "Pricing",
-  "Contact form",
-  "Our team",
-  "Responsive design",
-  "Newsletter",
-  "Minimalist",
-];
+
 
 export const Features = () => {
   return (
     <section
-      id="features"
-      className="container py-24 sm:py-32 space-y-8"
+      id="services"
+      className="container py-24 sm:py-32 space-y-"
     >
       <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
-        Many{" "}
+      Del concepto a la experiencia: {""}
         <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Great Features
+        branding, digital y 3D
         </span>
       </h2>
 
-      <div className="flex flex-wrap md:justify-center gap-4">
-        {featureList.map((feature: string) => (
-          <div key={feature}>
-            <Badge
-              variant="secondary"
-              className="text-sm"
-            >
-              {feature}
-            </Badge>
-          </div>
-        ))}
-      </div>
+      
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map(({ title, description, image }: FeatureProps) => (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+        {features.map(({ title, description }: FeatureProps) => (
           <Card key={title}>
             <CardHeader>
               <CardTitle>{title}</CardTitle>
@@ -84,16 +60,11 @@ export const Features = () => {
 
             <CardContent>{description}</CardContent>
 
-            <CardFooter>
-              <img
-                src={image}
-                alt="About feature"
-                className="w-[200px] lg:w-[300px] mx-auto"
-              />
-            </CardFooter>
+           
           </Card>
         ))}
       </div>
+  
     </section>
   );
 };

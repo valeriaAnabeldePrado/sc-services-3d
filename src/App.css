@@ -70,25 +70,37 @@
 /* *=========== Green theme =========== */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    /* Fondo general y texto */
+    --background: 270 40% 98%;
+    --foreground: 290 50% 10%;
+
+    /* Fondo de tarjetas y popovers */
+    --card: 270 40% 98%;
+    --card-foreground: 290 50% 10%;
+    --popover: 270 40% 98%;
+    --popover-foreground: 290 50% 10%;
+
+    /* Colores principales */
+    --primary: 276 100% 60%; /* #a855f7 */
+    --primary-foreground: 276 100% 98%; /* texto claro sobre primary */
+
+    --secondary: 318 100% 68%; /* #f72585 */
+    --secondary-foreground: 318 100% 98%;
+
+    /* Accentos y estados */
+    --accent: 300 100% 92%;
+    --accent-foreground: 300 100% 20%;
+
+    --muted: 270 20% 94%;
+    --muted-foreground: 270 15% 45%;
+
+    --destructive: 0 80% 60%; /* rojo vibrante */
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
+
+    --border: 270 20% 85%;
+    --input: 270 20% 85%;
+    --ring: 276 100% 60%; /* mismo que primary */
+
     --radius: 0.5rem;
   }
 
@@ -99,10 +111,10 @@
     --card-foreground: 0 0% 95%;
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 95%;
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --primary: 271 89% 56%;            /* #7d27f2 */
+    --primary-foreground: 271 70% 45%; /* #6420bf */
+    --secondary: 316 97% 58%;          /* #ff2bf9 */
+    --secondary-foreground: 327 30% 52%; /* #ad5a9f */
     --muted: 0 0% 15%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 12 6.5% 15.1%;
