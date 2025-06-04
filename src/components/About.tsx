@@ -7,7 +7,7 @@ export const About = () => {
       id="about"
       className="container py-24 sm:py-32"
     >
-      <div className="bg-muted/50 border rounded-lg p-12">
+      <div className="bg-muted/50 border rounded-lg p-6 sm:p-8 md:p-6 lg:p-12">
         <div className="px-6 flex flex-col-reverse md:flex-row gap-8 md:gap-12">
           <img
             src={logoSc}

@@ -12,10 +12,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+
 import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
-import { ModeToggle } from "./mode-toggle";
+// import { ModeToggle } from "./mode-toggle";
 import logoSc from "../assets/logo.png";
 
 interface RouteProps {
@@ -37,10 +37,7 @@ const routeList: RouteProps[] = [
     label: "Servicios",
   },
 
-  {
-    href: "#pricing",
-    label: "Pricing",
-  },
+ 
 ];
 
 export const Navbar = () => {
@@ -66,7 +63,7 @@ export const Navbar = () => {
 
           {/* mobile */}
           <span className="flex md:hidden">
-            <ModeToggle />
+            {/* <ModeToggle /> */}
 
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
@@ -96,17 +93,7 @@ export const Navbar = () => {
                       {label}
                     </a>
                   ))}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-                    target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
-                      variant: "secondary",
-                    })}`}
-                  >
-                    <GitHubLogoIcon className="mr-2 w-5 h-5" />
-                    Github
-                  </a>
+                  
                 </nav>
               </SheetContent>
             </Sheet>
@@ -126,7 +113,7 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
-            <ModeToggle />
+            {/* <ModeToggle /> */}
           </nav>
         </NavigationMenuList>
       </NavigationMenu>
