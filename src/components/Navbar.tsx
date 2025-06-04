@@ -36,17 +36,10 @@ const routeList: RouteProps[] = [
     href: "#services",
     label: "Servicios",
   },
-  {
-    href: "#testimonials",
-    label: "Testimonials",
-  },
+
   {
     href: "#pricing",
     label: "Pricing",
-  },
-  {
-    href: "#faq",
-    label: "FAQ",
   },
 ];
 
@@ -62,7 +55,11 @@ export const Navbar = () => {
               href="/"
               className="ml-2 font-bold text-xl flex"
             >
-              <img src={logoSc} alt="logo" className="h-7 object-contain mr-4" />
+              <img
+                src={logoSc}
+                alt="logo"
+                className="h-7 object-contain mr-4"
+              />
               SmartCloud Studio
             </a>
           </NavigationMenuItem>
@@ -71,10 +68,7 @@ export const Navbar = () => {
           <span className="flex md:hidden">
             <ModeToggle />
 
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
                 <Menu
                   className="flex md:hidden h-5 w-5"
@@ -87,7 +81,7 @@ export const Navbar = () => {
               <SheetContent side={"left"}>
                 <SheetHeader>
                   <SheetTitle className="font-bold text-xl">
-                    Shadcn/React
+                    SC Studio
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
@@ -132,9 +126,8 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
+            <ModeToggle />
           </nav>
-
-          
         </NavigationMenuList>
       </NavigationMenu>
     </header>
