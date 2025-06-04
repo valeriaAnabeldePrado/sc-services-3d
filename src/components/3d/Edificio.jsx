@@ -5,7 +5,7 @@ import {
   Preload,
   OrbitControls,
   Loader,
-  Stats,
+  // Stats,
   Environment,
   Sky,
 } from "@react-three/drei";
@@ -171,70 +171,84 @@ export default function Edificio() {
   return (
     <>
       {/* Reloj visual */}
-      <div
-        style={{
-          position: "fixed",
-          top: 120,
-          right: 24,
-          zIndex: 1001,
-          background: "rgba(30,32,40,0.85)",
-          color: "#fff",
-          fontFamily: "'Inter', sans-serif",
-          fontWeight: 600,
-          fontSize: "1.2rem",
-          padding: "12px 24px",
-          borderRadius: "12px",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-          letterSpacing: "0.04em",
-          minWidth: "90px",
-          textAlign: "center",
-        }}
-      >
-        🕒 {simHour.toString().padStart(2, "0")}:00
-      </div>
-      <button
-        style={{
-          position: "fixed",
-          bottom: 82,
-          right: 24,
-          zIndex: 1001,
-          padding: "12px 24px",
-          background: "#22d3ee",
-          color: "#fff",
-          border: "none",
-          borderRadius: "12px",
-          fontWeight: 600,
-          fontSize: "1rem",
-          cursor: "pointer",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-        }}
-        onClick={() => setShowEntorno((v) => !v)}
-      >
-        {showEntorno ? "Ocultar entorno" : "Mostrar entorno"}
-      </button>
+      {!isTouch ? (
+        <div
+          style={{
+            position: "fixed",
+            top: 120,
+            right: 24,
+            zIndex: 1001,
+            background: "rgba(30,32,40,0.85)",
+            color: "#fff",
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 600,
+            fontSize: "1.2rem",
+            padding: "12px 24px",
+            borderRadius: "12px",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+            letterSpacing: "0.04em",
+            minWidth: "90px",
+            textAlign: "center",
+          }}
+        >
+          🕒 {simHour.toString().padStart(2, "0")}:00{" "}
+        </div>
+      ) : (
+        ""
+      )}
+
+      {isTouch ? (
+        ""
+      ) : (
+        <button
+          style={{
+            position: "fixed",
+            bottom: 82,
+            right: 24,
+            zIndex: 1001,
+            padding: "12px 24px",
+            background: "#22d3ee",
+            color: "#fff",
+            border: "none",
+            borderRadius: "12px",
+            fontWeight: 600,
+            fontSize: "1rem",
+            cursor: "pointer",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+          }}
+          onClick={() => setShowEntorno((v) => !v)}
+        >
+          {showEntorno ? "Ocultar entorno" : "Mostrar entorno"}
+        </button>
+      )}
+
       {/* Botón de transición */}
-      <button
-        style={{
-          position: "fixed",
-          bottom: 24,
-          right: 24,
-          zIndex: 1001,
-          padding: "12px 24px",
-          background: "#6366f1",
-          color: "#fff",
-          border: "none",
-          borderRadius: "12px",
-          fontWeight: 600,
-          fontSize: "1rem",
-          cursor: transitioning ? "wait" : "pointer",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-          opacity: transitioning ? 0.7 : 1,
-        }}
-        onClick={handleToggleLight}
-        disabled={transitioning}
-      >
-        Cambiar a {moment === "amanecer" ? "atardecer" : "amanecer"}
-      </button>
+      {isTouch ? (
+        ""
+      ) : (
+        <button
+          style={{
+            position: "fixed",
+            bottom: 24,
+            right: 24,
+            zIndex: 1001,
+            padding: "12px 24px",
+            background: "#6366f1",
+            color: "#fff",
+            border: "none",
+            borderRadius: "12px",
+            fontWeight: 600,
+            fontSize: "1rem",
+            cursor: transitioning ? "wait" : "pointer",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+            opacity: transitioning ? 0.7 : 1,
+          }}
+          onClick={handleToggleLight}
+          disabled={transitioning}
+        >
+          Cambiar a {moment === "amanecer" ? "atardecer" : "amanecer"}
+        </button>
+      )}
       <Canvas
         style={{
           position: "fixed",
@@ -273,7 +287,7 @@ export default function Edificio() {
           minDistance={1}
         />
       </Canvas>
-      <Stats />
+      {/* <Stats /> */}
       <Loader
         containerStyles={{
           background: "rgba(20, 22, 30, 0.9)",

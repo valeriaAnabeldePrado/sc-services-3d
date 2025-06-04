@@ -5,7 +5,7 @@ import {
   Preload,
   OrbitControls,
   Loader,
-  Stats,
+  // Stats,
   Sky,
 } from "@react-three/drei";
 import { ScrollWaypointCamera } from "./scroll4";
@@ -83,9 +83,7 @@ export default function Departamento() {
           pointerEvents: "none",
         }}
       >
-        {isTouch
-          ? "Desliza hacia arriba o abajo para avanzar"
-          : "Usá el scroll del mouse para avanzar"}
+        {isTouch ? "↕️ para avanzar" : "Usá el scroll del mouse para avanzar"}
       </div>
       <Canvas
         ref={canvasRef}
@@ -133,7 +131,7 @@ export default function Departamento() {
         )}
       </Canvas>
 
-      <Stats />
+      {/* <Stats /> */}
 
       <button
         style={{
