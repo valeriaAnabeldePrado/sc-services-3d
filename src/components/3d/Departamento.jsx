@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import {
   useGLTF,
@@ -32,6 +32,28 @@ function FreeCameraSetup({ active }) {
 export default function Departamento() {
   const [freeCamera, setFreeCamera] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
+  const canvasRef = useRef();
+
+  useEffect(() => {
+    // Al montar: bloquea el scroll
+    document.body.style.overflow = "hidden";
+    return () => {
+      // Al desmontar: restaura el scroll
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    const preventDefault = (e) => {
+      if (canvasRef.current && canvasRef.current.contains(e.target)) {
+        if (e.touches.length === 1) e.preventDefault();
+      }
+    };
+    window.addEventListener("touchmove", preventDefault, { passive: false });
+    return () => {
+      window.removeEventListener("touchmove", preventDefault);
+    };
+  }, []);
 
   useEffect(() => {
     setIsTouch(
@@ -66,6 +88,7 @@ export default function Departamento() {
           : "Usá el scroll del mouse para avanzar"}
       </div>
       <Canvas
+        ref={canvasRef}
         style={{
           position: "fixed",
           top: 0,
