@@ -156,12 +156,17 @@ export default function Departamento() {
 
       <Loader
         containerStyles={{
+          
           background: "rgba(20, 22, 30, 0.9)",
           backdropFilter: "blur(6px)",
           borderRadius: "20px",
           boxShadow: "0 6px 32px rgba(0,0,0,0.2)",
           padding: "32px",
           color: "#fff",
+          width: "90%",
+          maxWidth: "400px",
+          height: "auto",
+          minHeight: "140px",
           fontFamily: "'Inter', sans-serif",
           display: "flex",
           flexDirection: "column",
@@ -176,7 +181,8 @@ export default function Departamento() {
           padding: "24px 20px",
           boxShadow: "inset 0 0 10px rgba(255,255,255,0.05)",
           width: "100%",
-          maxWidth: "320px",
+          height: "100px",
+          maxWidth: "350px",
           textAlign: "center",
           backdropFilter: "blur(2px)",
         }}
