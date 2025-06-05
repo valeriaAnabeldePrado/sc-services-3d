@@ -7,7 +7,7 @@ import { Navbar } from "./components/Navbar";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { Sponsors } from "./components/Sponsors";
 //@ts-expect-error becouse is a jsx file
-import Edificio from "./components/3d/Edificio";
+import Edificio from "./components/3d/edificio";
 //@ts-expect-error becouse is a jsx file
 import Departamento from "./components/3d/Departamento";
 

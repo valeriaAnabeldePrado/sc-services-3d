@@ -1,86 +1,28 @@
+// src/Edificio.jsx
 import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
-  useGLTF,
   Preload,
   OrbitControls,
   Loader,
-  // Stats,
+  Stats,
   Environment,
   Sky,
 } from "@react-three/drei";
 
-// Luces principales
-function Lights({ sunPosition }) {
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <directionalLight
-        position={sunPosition}
-        intensity={2}
-        castShadow
-        shadow-bias={-0.001}
-        shadow-normalBias={0.05}
-        shadow-mapSize-width={256}
-        shadow-mapSize-height={256}
-        shadow-camera-near={1}
-        shadow-camera-far={100}
-        shadow-camera-left={-15}
-        shadow-camera-right={15}
-        shadow-camera-top={15}
-        shadow-camera-bottom={-15}
-      />
-    </>
-  );
-}
-
-// Modelo GLB
-function Probe({ ...props }) {
-  const { scene } = useGLTF("/edificio-v1.glb");
-
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-  }, [scene]);
-
-  return <primitive object={scene} {...props} />;
-}
-function Entorno({ ...props }) {
-  const { scene } = useGLTF("/entorno-v1.glb");
-
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-  }, [scene]);
-
-  return <primitive object={scene} {...props} />;
-}
-
-// Interpolación de vectores
-function lerpVec3(a, b, t) {
-  return [
-    a[0] + (b[0] - a[0]) * t,
-    a[1] + (b[1] - a[1]) * t,
-    a[2] + (b[2] - a[2]) * t,
-  ];
-}
+import ModelEdificio from "./model-edificio";
+import ModelEntorno from "./model-enterno";
+import LightsMine from "./lights";
+import { lerpVec3, useSkyTargets } from "../../lib/utils2";
 
 export default function Edificio() {
-  // Estados principales
-  const [sunPosition, setSunPosition] = useState([-20, 20, -10]);
-  const [skySunPosition, setSkySunPosition] = useState([0, 1, 0]);
+  const targets = useSkyTargets();
+  const [sunPosition, setSunPosition] = useState(targets.amanecer.sun);
+  const [skySunPosition, setSkySunPosition] = useState(targets.amanecer.sky);
   const [moment, setMoment] = useState("amanecer");
-  const [envPreset, setEnvPreset] = useState("city");
+
   const [transitioning, setTransitioning] = useState(false);
-  const [simHour, setSimHour] = useState(6); // 6am o 18pm
+  const [simHour, setSimHour] = useState(targets.amanecer.hour);
   const [showEntorno, setShowEntorno] = useState(true);
   const [isTouch, setIsTouch] = useState(false);
 
@@ -92,86 +34,38 @@ export default function Edificio() {
     );
   }, []);
 
-  // Targets para transición
-  const targets = {
-    amanecer: {
-      sun: [-20, 20, -10],
-      sky: [0, 1, 0],
-      env: "city",
-      skyParams: {
-        rayleigh: 2,
-        mieCoefficient: 0.01,
-        mieDirectionalG: 0.9,
-        inclination: 0.6,
-        azimuth: 0.25,
-      },
-      hour: 6,
-    },
-    atardecer: {
-      sun: [20, 10, 20],
-      sky: [10, 1, 0],
-      env: "sunset",
-      skyParams: {
-        turbidity: 12,
-        rayleigh: 0.5,
-        mieCoefficient: 0.03,
-        mieDirectionalG: 0.99,
-        inclination: 0.7,
-        azimuth: 0.75,
-      },
-      hour: 18,
-    },
-  };
-
-  // Transición gradual de luz, cielo y environment
   const handleToggleLight = () => {
     if (transitioning) return;
     setTransitioning(true);
 
-    const from = moment === "amanecer" ? targets.amanecer : targets.atardecer;
+    const from = targets[moment];
     const to = moment === "amanecer" ? targets.atardecer : targets.amanecer;
-    let t = 0;
-    const duration = 1500; // ms
-    const steps = 30;
-    const interval = duration / steps;
-    const startHour = from.hour;
-    const endHour = to.hour;
+    const duration = 1500;
+    const startTime = performance.now();
 
-    const animate = () => {
-      t += 1 / steps;
-      if (t >= 1) t = 1;
+    const step = (now) => {
+      const t = Math.min((now - startTime) / duration, 1);
 
       setSunPosition(lerpVec3(from.sun, to.sun, t));
       setSkySunPosition(lerpVec3(from.sky, to.sky, t));
-      // Interpola la hora
-      let hour = Math.round(startHour + (endHour - startHour) * t);
-      if (hour < 0) hour += 24;
-      setSimHour(hour);
+      setSimHour(Math.round(from.hour + (to.hour - from.hour) * t));
 
-      // Cambia el environment a mitad de la transición
-      if (t > 0.5) setEnvPreset(to.env);
-
-      if (t < 1) {
-        setTimeout(animate, interval);
-      } else {
+      if (t < 1) requestAnimationFrame(step);
+      else {
         setMoment(moment === "amanecer" ? "atardecer" : "amanecer");
         setTransitioning(false);
-        setSimHour(endHour);
+        setSimHour(to.hour);
       }
     };
-    animate();
+
+    requestAnimationFrame(step);
   };
 
-  // Selecciona los parámetros del cielo según el momento
-  const skyParams =
-    moment === "amanecer"
-      ? targets.amanecer.skyParams
-      : targets.atardecer.skyParams;
+  const skyParams = targets[moment].skyParams;
 
   return (
     <>
-      {/* Reloj visual */}
-      {!isTouch ? (
+      {!isTouch && (
         <div
           style={{
             position: "fixed",
@@ -191,15 +85,11 @@ export default function Edificio() {
             textAlign: "center",
           }}
         >
-          🕒 {simHour.toString().padStart(2, "0")}:00{" "}
+          🕒 {simHour.toString().padStart(2, "0")}:00
         </div>
-      ) : (
-        ""
       )}
 
-      {isTouch ? (
-        ""
-      ) : (
+      {!isTouch && (
         <button
           style={{
             position: "fixed",
@@ -222,10 +112,7 @@ export default function Edificio() {
         </button>
       )}
 
-      {/* Botón de transición */}
-      {isTouch ? (
-        ""
-      ) : (
+      {!isTouch && (
         <button
           style={{
             position: "fixed",
@@ -249,6 +136,7 @@ export default function Edificio() {
           Cambiar a {moment === "amanecer" ? "atardecer" : "amanecer"}
         </button>
       )}
+
       <Canvas
         style={{
           position: "fixed",
@@ -256,21 +144,21 @@ export default function Edificio() {
           left: 0,
           width: "100vw",
           height: "100vh",
-          zIndex: 1, // debajo de los overlays
+          zIndex: 1,
         }}
-        shadows={isTouch ? false : true}
+        shadows={!isTouch}
         gl={{ antialias: true }}
         camera={{ position: [10, 11, 12], fov: 60, near: 0.01 }}
         toneMapped={true}
-        dpr={isTouch ? 1 : window.devicePixelRatio}
+        dpr={Math.min(window.devicePixelRatio || 1, 2)}
       >
         <Suspense fallback={null}>
           <Sky sunPosition={skySunPosition} {...skyParams} />
-          <Lights sunPosition={sunPosition} />
-          <Probe position={[0, 0, 0]} />
-          {showEntorno && <Entorno position={[0, 0, 0]} />}
+          <LightsMine sunPosition={sunPosition} />
+          <ModelEdificio position={[0, 0, 0]} />
+          {showEntorno && <ModelEntorno position={[0, 0, 0]} />}
           <Environment
-            preset={envPreset}
+            preset="city"
             backgroundIntensity={0.2}
             environmentIntensity={0.2}
           />
@@ -287,7 +175,7 @@ export default function Edificio() {
           minDistance={1}
         />
       </Canvas>
-      {/* <Stats /> */}
+      <Stats />
       <Loader
         containerStyles={{
           position: "absolute",
