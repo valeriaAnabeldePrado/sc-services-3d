@@ -3,7 +3,7 @@ import React from "react";
 export default function LightsMine({ sunPosition }) {
   return (
     <>
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={0.6} />
       <directionalLight
         position={sunPosition}
         intensity={2}
