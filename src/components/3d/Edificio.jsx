@@ -18,9 +18,8 @@ import { ModelEntorno2 } from "./model-enterno";
 import { useGLTF } from "@react-three/drei";
 
 export default function Edificio() {
-  useGLTF.preload("/entorno-cont.glb");
   useGLTF.preload("/entorno-2.glb");
-  useGLTF.preload("/edificio.glb");
+  useGLTF.preload("/mine-v1.glb");
   const targets = useSkyTargets();
   const [sunPosition, setSunPosition] = useState(targets.amanecer.sun);
   const [skySunPosition, setSkySunPosition] = useState(targets.amanecer.sky);
