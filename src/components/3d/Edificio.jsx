@@ -174,7 +174,7 @@ export default function Edificio() {
           height: "100vh",
           zIndex: 1,
         }}
-        shadows={!isTouch}
+        // shadows={!isTouch}
         gl={{ antialias: true }}
         camera={{ position: [10, 11, 12], fov: 60, near: 0.01 }}
         toneMapped={true}

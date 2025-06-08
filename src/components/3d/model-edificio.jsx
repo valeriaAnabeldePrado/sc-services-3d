@@ -4,7 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import { enableShadows } from "../../lib/utils2";
 
 export default function ModelEdificio(props) {
-  const { scene } = useGLTF("/edificio.glb");
+  const { scene } = useGLTF("/mine.glb");
 
   useEffect(() => {
     enableShadows(scene);
