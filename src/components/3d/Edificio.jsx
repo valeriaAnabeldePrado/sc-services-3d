@@ -11,11 +11,16 @@ import {
 } from "@react-three/drei";
 
 import ModelEdificio from "./model-edificio";
-import ModelEntorno from "./model-enterno";
 import LightsMine from "./lights";
 import { lerpVec3, useSkyTargets } from "../../lib/utils2";
+import { Ground1, Ground2 } from "./ground";
+import { ModelEntorno2 } from "./model-enterno";
+import { useGLTF } from "@react-three/drei";
 
 export default function Edificio() {
+  useGLTF.preload("/entorno-cont.glb");
+  useGLTF.preload("/entorno-2.glb");
+  useGLTF.preload("/edificio.glb");
   const targets = useSkyTargets();
   const [sunPosition, setSunPosition] = useState(targets.amanecer.sun);
   const [skySunPosition, setSkySunPosition] = useState(targets.amanecer.sky);
@@ -24,6 +29,7 @@ export default function Edificio() {
   const [transitioning, setTransitioning] = useState(false);
   const [simHour, setSimHour] = useState(targets.amanecer.hour);
   const [showEntorno, setShowEntorno] = useState(true);
+  const [showEntorno2, setShowEntorno2] = useState(true);
   const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
@@ -111,6 +117,28 @@ export default function Edificio() {
           {showEntorno ? "Ocultar entorno" : "Mostrar entorno"}
         </button>
       )}
+      {!isTouch && (
+        <button
+          style={{
+            position: "fixed",
+            bottom: 140,
+            right: 24,
+            zIndex: 1001,
+            padding: "12px 24px",
+            background: "#6366f1",
+            color: "#fff",
+            border: "none",
+            borderRadius: "12px",
+            fontWeight: 600,
+            fontSize: "1rem",
+            cursor: "pointer",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+          }}
+          onClick={() => setShowEntorno2((v) => !v)}
+        >
+          {showEntorno2 ? "Ocultar entorno2" : "Mostrar entorno2"}
+        </button>
+      )}
 
       {!isTouch && (
         <button
@@ -156,7 +184,10 @@ export default function Edificio() {
           <Sky sunPosition={skySunPosition} {...skyParams} />
           <LightsMine sunPosition={sunPosition} />
           <ModelEdificio position={[0, 0, 0]} />
-          {showEntorno && <ModelEntorno position={[0, 0, 0]} />}
+          <Ground1 />
+          <Ground2 />
+
+          {showEntorno2 && <ModelEntorno2 position={[0, 0.5, 0]} />}
           <Environment
             preset="city"
             backgroundIntensity={0.2}
@@ -172,7 +203,8 @@ export default function Edificio() {
           enableRotate={true}
           autoRotate={false}
           autoRotateSpeed={1.0}
-          minDistance={1}
+          minDistance={10}
+          maxDistance={30}
         />
       </Canvas>
       <Stats />
@@ -181,8 +213,8 @@ export default function Edificio() {
           position: "absolute",
           top: "50%",
           left: "10%",
-          right:"10%",  
-         background: "rgba(20, 22, 30, 0.9)",
+          right: "10%",
+          background: "rgba(20, 22, 30, 0.9)",
           backdropFilter: "blur(6px)",
           borderRadius: "20px",
           boxShadow: "0 6px 32px rgba(0,0,0,0.2)",

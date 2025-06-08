@@ -11,7 +11,7 @@ export function lerpVec3(a, b, t) {
 
 export function enableShadows(scene) {
   scene.traverse((child) => {
-    if (child.isMesh) {
+    if (child.isMesh && child.geometry) {
       child.castShadow = true;
       child.receiveShadow = true;
     }
