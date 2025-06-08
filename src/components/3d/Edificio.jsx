@@ -173,11 +173,11 @@ export default function Edificio() {
           height: "100vh",
           zIndex: 1,
         }}
-        // shadows={!isTouch}
+        shadows={!isTouch}
         gl={{ antialias: true }}
         camera={{ position: [10, 11, 12], fov: 60, near: 0.01 }}
         toneMapped={true}
-        dpr={Math.min(window.devicePixelRatio || 1, 2)}
+        dpr={isTouch ? 1 : 1.5}
       >
         <Suspense fallback={null}>
           <Sky sunPosition={skySunPosition} {...skyParams} />
