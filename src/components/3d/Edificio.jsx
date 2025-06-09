@@ -14,22 +14,28 @@ import ModelEdificio from "./model-edificio";
 import LightsMine from "./lights";
 import { lerpVec3, useSkyTargets } from "../../lib/utils2";
 import { Ground1, Ground2 } from "./ground";
-import { ModelEntorno2 } from "./model-enterno";
+import { ModelEntorno, ModelEntorno2 } from "./model-enterno";
 import { useGLTF } from "@react-three/drei";
+import { Controles3D } from "./controles";
+import CameraZoomTrigger from "./camera-zoom";
 
 export default function Edificio() {
   useGLTF.preload("/entorno-2.glb");
   useGLTF.preload("/mine-v1.glb");
+  useGLTF.preload("/edif-cont.glb");
   const targets = useSkyTargets();
   const [sunPosition, setSunPosition] = useState(targets.amanecer.sun);
   const [skySunPosition, setSkySunPosition] = useState(targets.amanecer.sky);
   const [moment, setMoment] = useState("amanecer");
 
   const [transitioning, setTransitioning] = useState(false);
-  const [simHour, setSimHour] = useState(targets.amanecer.hour);
+  const [showGround1, setShowGround1] = useState(true);
+  const [showGround2, setShowGround2] = useState(true);
   const [showEntorno, setShowEntorno] = useState(true);
   const [showEntorno2, setShowEntorno2] = useState(true);
   const [isTouch, setIsTouch] = useState(false);
+
+  const [zoomPared, setZoomPared] = useState(false);
 
   useEffect(() => {
     setIsTouch(
@@ -39,27 +45,25 @@ export default function Edificio() {
     );
   }, []);
 
-  const handleToggleLight = () => {
+  const handleLight = (to) => {
     if (transitioning) return;
     setTransitioning(true);
 
     const from = targets[moment];
-    const to = moment === "amanecer" ? targets.atardecer : targets.amanecer;
+    const toTarget = to === "amanecer" ? targets.amanecer : targets.atardecer;
     const duration = 1500;
     const startTime = performance.now();
 
     const step = (now) => {
       const t = Math.min((now - startTime) / duration, 1);
 
-      setSunPosition(lerpVec3(from.sun, to.sun, t));
-      setSkySunPosition(lerpVec3(from.sky, to.sky, t));
-      setSimHour(Math.round(from.hour + (to.hour - from.hour) * t));
+      setSunPosition(lerpVec3(from.sun, toTarget.sun, t));
+      setSkySunPosition(lerpVec3(from.sky, toTarget.sky, t));
 
       if (t < 1) requestAnimationFrame(step);
       else {
-        setMoment(moment === "amanecer" ? "atardecer" : "amanecer");
+        setMoment(to);
         setTransitioning(false);
-        setSimHour(to.hour);
       }
     };
 
@@ -71,97 +75,50 @@ export default function Edificio() {
   return (
     <>
       {!isTouch && (
+        <Controles3D
+          transitioning={transitioning}
+          onLightFrom={() => handleLight("amanecer")}
+          onLightTo={() => handleLight("atardecer")}
+          showGround1={showGround1}
+          setShowGround1={setShowGround1}
+          showGround2={showGround2}
+          setShowGround2={setShowGround2}
+          showEntorno={showEntorno}
+          setShowEntorno={setShowEntorno}
+          showEntorno2={showEntorno2}
+          setShowEntorno2={setShowEntorno2}
+          zoomPared={zoomPared}
+          setZoomPared={setZoomPared}
+        />
+      )}
+
+      {zoomPared && (
         <div
           style={{
             position: "fixed",
             top: 120,
-            right: 24,
-            zIndex: 1001,
-            background: "rgba(30,32,40,0.85)",
+            left: 40,
+            zIndex: 2000,
+            background: "rgba(30,32,40,0.96)",
             color: "#fff",
+            borderRadius: "16px",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+            padding: "24px 32px",
+            maxWidth: 340,
             fontFamily: "'Inter', sans-serif",
-            fontWeight: 600,
-            fontSize: "1.2rem",
-            padding: "12px 24px",
-            borderRadius: "12px",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-            letterSpacing: "0.04em",
-            minWidth: "90px",
-            textAlign: "center",
+            fontSize: "1.1rem",
+            lineHeight: 1.6,
           }}
         >
-          🕒 {simHour.toString().padStart(2, "0")}:00
+          <strong>¿De qué está compuesta la pared?</strong>
+          <ul style={{ margin: "16px 0 0 0", padding: 0, listStyle: "none" }}>
+            <li>• Ladrillo hueco portante 18cm</li>
+            <li>• Aislación hidrófuga y térmica</li>
+            <li>• Revoque grueso y fino</li>
+            <li>• Pintura interior/exterior</li>
+            <li>• Terminación con revestimiento plástico</li>
+          </ul>
         </div>
-      )}
-
-      {!isTouch && (
-        <button
-          style={{
-            position: "fixed",
-            bottom: 82,
-            right: 24,
-            zIndex: 1001,
-            padding: "12px 24px",
-            background: "#22d3ee",
-            color: "#fff",
-            border: "none",
-            borderRadius: "12px",
-            fontWeight: 600,
-            fontSize: "1rem",
-            cursor: "pointer",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-          }}
-          onClick={() => setShowEntorno((v) => !v)}
-        >
-          {showEntorno ? "Ocultar entorno" : "Mostrar entorno"}
-        </button>
-      )}
-      {!isTouch && (
-        <button
-          style={{
-            position: "fixed",
-            bottom: 140,
-            right: 24,
-            zIndex: 1001,
-            padding: "12px 24px",
-            background: "#6366f1",
-            color: "#fff",
-            border: "none",
-            borderRadius: "12px",
-            fontWeight: 600,
-            fontSize: "1rem",
-            cursor: "pointer",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-          }}
-          onClick={() => setShowEntorno2((v) => !v)}
-        >
-          {showEntorno2 ? "Ocultar entorno2" : "Mostrar entorno2"}
-        </button>
-      )}
-
-      {!isTouch && (
-        <button
-          style={{
-            position: "fixed",
-            bottom: 24,
-            right: 24,
-            zIndex: 1001,
-            padding: "12px 24px",
-            background: "#6366f1",
-            color: "#fff",
-            border: "none",
-            borderRadius: "12px",
-            fontWeight: 600,
-            fontSize: "1rem",
-            cursor: transitioning ? "wait" : "pointer",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-            opacity: transitioning ? 0.7 : 1,
-          }}
-          onClick={handleToggleLight}
-          disabled={transitioning}
-        >
-          Cambiar a {moment === "amanecer" ? "atardecer" : "amanecer"}
-        </button>
       )}
 
       <Canvas
@@ -175,18 +132,30 @@ export default function Edificio() {
         }}
         shadows={!isTouch}
         gl={{ antialias: true }}
-        camera={{ position: [10, 11, 12], fov: 60, near: 0.01 }}
+        camera={{
+          position: [10, 11, 12],
+          fov: 60,
+          near: 0.01,
+        }}
         toneMapped={true}
         dpr={isTouch ? 1 : 1.5}
       >
+        <CameraZoomTrigger
+          trigger={zoomPared}
+          target={[-1.5, 9, 6]}
+          lookAt={[0, 9, 4]} // Cambiá el X o el Z para que no esté alineado
+          original={[10, 11, 12]}
+          originalLookAt={[0, 8, 0]}
+        />
+
         <Suspense fallback={null}>
           <Sky sunPosition={skySunPosition} {...skyParams} />
           <LightsMine sunPosition={sunPosition} />
           <ModelEdificio position={[0, 0, 0]} />
-          <Ground1 />
-          <Ground2 />
-
-          {showEntorno2 && <ModelEntorno2 position={[0, 0.5, 0]} />}
+          {showGround1 && <Ground1 />}
+          {showGround2 && <Ground2 />}
+          {showEntorno && <ModelEntorno2 position={[0, 0.5, 0]} />}
+          {showEntorno2 && <ModelEntorno position={[0, 0.5, 0]} />}
           <Environment
             preset="city"
             backgroundIntensity={0.2}
@@ -195,6 +164,7 @@ export default function Edificio() {
         </Suspense>
         <Preload all />
         <OrbitControls
+          enabled={!zoomPared}
           minPolarAngle={0}
           maxPolarAngle={Math.PI / 2 - 0.1}
           enableZoom={true}

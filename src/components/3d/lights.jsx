@@ -6,7 +6,7 @@ export default function LightsMine({ sunPosition }) {
       <ambientLight intensity={0.6} />
       <directionalLight
         position={sunPosition}
-        intensity={2}
+        intensity={1}
         castShadow
         shadow-bias={-0.001}
         shadow-normalBias={0.05}

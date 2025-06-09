@@ -27,7 +27,7 @@ export const Hero = () => {
             className="w-full md:w-1/3"
             onClick={() => navigate("/edificio")}
           >
-            Ver Edificio
+            Ver Edificio (Beta)
           </Button>
           <Button
             className="w-full md:w-1/3"
